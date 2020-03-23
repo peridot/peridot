@@ -23,7 +23,7 @@ It is aimed for easy concurrency, simplicity and speed.
 - **Object Orientated:** Peridot has first class support for classes/objects, they are made as lightweight as possible.
 
 ## Look & Feel
-```pd
+```julia
 # Printing text
 println("Hello, World!")
 
@@ -36,7 +36,7 @@ end
 println("5 + 2 = #{sum(5, 2)}")
 
 # Modules
-import "math"
+import math
 println(math.sin(30))
 
 # Classes
