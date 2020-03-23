@@ -1,0 +1,12 @@
+
+function hi()
+  x = 5
+  function lmao()
+    return x
+  end
+  x = 6
+  return lmao
+end
+
+closure = hi()
+println(closure())

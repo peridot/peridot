@@ -1,0 +1,24 @@
+# Async Closures, this is broken so i test it here.
+# The problem: upvalues does not get marked by the GC when libuv does it's "magic"
+# update 13/3/2020: This is now fixed, the problem was the way setTimeout invoked the callback.
+# it extracted the raw function from the closure and called pvm_exec which made a new closure.
+# Now it directly calls the given closure.
+
+function test()
+  x = 5
+  function nest()
+    # Force a GC to stress test.
+    gc_collect()
+    # It should print the 5
+    println(x)
+    # Ensure local variables still work as expected.
+    local = 7
+    println(local)
+  end
+  # Schedule the nest() function to be ran 3 seconds later.
+  setTimeout(3000, nest)
+end
+
+test()
+# Ensure we aren't getting blocked.
+println("Async!")

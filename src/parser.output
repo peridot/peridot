@@ -1,0 +1,3128 @@
+Terminals unused in grammar
+
+    tDOT
+    tMACRO
+    tSTATIC
+    tLBRACE
+    tRBRACE
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: %empty
+    2        | stmts
+
+    3 stmts: stmt tSEMI
+    4      | stmts stmt tSEMI
+
+    5 stmt: expr
+    6     | func
+    7     | return_expr
+    8     | cond
+    9     | do_block
+   10     | while_loop
+   11     | import_stmt
+   12     | class_stmt
+
+   13 import_stmt: tIMPORT tIDENT
+
+   14 class_method: proto tSEMI stmts tEND
+   15             | proto tSEMI tEND
+
+   16 class_body: class_method tSEMI
+   17           | class_body class_method tSEMI
+
+   18 class_stmt: tCLASS tIDENT tSEMI tEND
+   19           | tCLASS tIDENT tSEMI class_body tEND
+
+   20 do_block: tDO stmts tEND
+
+   21 while_loop: tWHILE expr tSEMI stmts tEND
+   22           | tWHILE expr tSEMI tEND
+
+   23 func: tFUNCTION proto tSEMI stmts tEND
+   24     | tFUNCTION proto tSEMI tEND
+
+   25 proto: tIDENT tLPAREN fnargs tRPAREN
+
+   26 fnargs: %empty
+   27       | tIDENT
+   28       | fnargs tCOMMA tIDENT
+
+   29 args: %empty
+   30     | expr
+   31     | args tCOMMA expr
+
+   32 number: tNUMBER
+
+   33 bool: tTRUE
+   34     | tFALSE
+
+   35 return_expr: tRETURN
+   36            | tRETURN expr
+
+   37 string: tSTRING
+
+   38 ternary: expr tQU expr tCOLON expr
+
+   39 ident: tIDENT
+   40      | file
+
+   41 file: tFILE
+
+   42 call: tIDENT tLPAREN args tRPAREN
+
+   43 cond: tIF expr tSEMI stmts tEND
+   44     | tIF expr tSEMI stmts tELSE stmts tEND
+
+   45 assign: tIDENT tEQ expr
+
+   46 expr: number
+   47     | ternary
+   48     | bool
+   49     | tNULL
+   50     | assign
+   51     | string
+   52     | ident
+   53     | call
+   54     | tLPAREN expr tRPAREN
+   55     | expr tPLUS expr
+   56     | expr tMINUS expr
+   57     | expr tSLASH expr
+   58     | expr tSTAR expr
+   59     | expr tGT expr
+   60     | expr tGE expr
+   61     | expr tLT expr
+   62     | expr tLE expr
+   63     | expr tSHR expr
+   64     | expr tSHL expr
+   65     | expr tBOR expr
+   66     | expr tBAND expr
+   67     | expr tEQEQ expr
+   68     | expr tXOR expr
+   69     | expr tNEQ expr
+   70     | expr tAND expr
+   71     | expr tOR expr
+   72     | tBNOT expr
+   73     | tMINUS expr
+   74     | tNOT expr
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    tIDENT <str> (258) 13 18 19 25 27 28 39 42 45
+    tSTRING <str> (259) 37
+    tNUMBER <num> (260) 32
+    tTRUE (261) 33
+    tFALSE (262) 34
+    tNULL (263) 49
+    tGT (264) 59
+    tGE (265) 60
+    tLT (266) 61
+    tLE (267) 62
+    tPLUS (268) 55
+    tMINUS (269) 56 73
+    tSLASH (270) 57
+    tSTAR (271) 58
+    tEQ (272) 45
+    tEQEQ (273) 67
+    tNOT (274) 74
+    tNEQ (275) 69
+    tAND (276) 70
+    tOR (277) 71
+    tQU (278) 38
+    tSHR (279) 63
+    tSHL (280) 64
+    tBOR (281) 65
+    tBAND (282) 66
+    tBNOT (283) 72
+    tXOR (284) 68
+    tCOLON (285) 38
+    tDOT (286)
+    tFUNCTION (287) 23 24
+    tWHILE (288) 21 22
+    tEND (289) 14 15 18 19 20 21 22 23 24 43 44
+    tFILE (290) 41
+    tMACRO (291)
+    tRETURN (292) 35 36
+    tIF (293) 43 44
+    tELSE (294) 44
+    tDO (295) 20
+    tCLASS (296) 18 19
+    tSTATIC (297)
+    tIMPORT (298) 13
+    tLPAREN (299) 25 42 54
+    tRPAREN (300) 25 42 54
+    tLBRACE (301)
+    tRBRACE (302)
+    tCOMMA (303) 28 31
+    tSEMI (304) 3 4 14 15 16 17 18 19 21 22 23 24 43 44
+    UNARY (305)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (51)
+        on left: 0
+    program (52)
+        on left: 1 2
+        on right: 0
+    stmts <node> (53)
+        on left: 3 4
+        on right: 2 4 14 20 21 23 43 44
+    stmt <node> (54)
+        on left: 5 6 7 8 9 10 11 12
+        on right: 3 4
+    import_stmt <node> (55)
+        on left: 13
+        on right: 11
+    class_method (56)
+        on left: 14 15
+        on right: 16 17
+    class_body (57)
+        on left: 16 17
+        on right: 17 19
+    class_stmt <node> (58)
+        on left: 18 19
+        on right: 12
+    do_block <node> (59)
+        on left: 20
+        on right: 9
+    while_loop <node> (60)
+        on left: 21 22
+        on right: 10
+    func <node> (61)
+        on left: 23 24
+        on right: 6
+    proto <node> (62)
+        on left: 25
+        on right: 14 15 23 24
+    fnargs <fnargs> (63)
+        on left: 26 27 28
+        on right: 25 28
+    args <fnargs> (64)
+        on left: 29 30 31
+        on right: 31 42
+    number <node> (65)
+        on left: 32
+        on right: 46
+    bool <node> (66)
+        on left: 33 34
+        on right: 48
+    return_expr <node> (67)
+        on left: 35 36
+        on right: 7
+    string <node> (68)
+        on left: 37
+        on right: 51
+    ternary <node> (69)
+        on left: 38
+        on right: 47
+    ident <node> (70)
+        on left: 39 40
+        on right: 52
+    file <node> (71)
+        on left: 41
+        on right: 40
+    call <node> (72)
+        on left: 42
+        on right: 53
+    cond <node> (73)
+        on left: 43 44
+        on right: 8
+    assign <node> (74)
+        on left: 45
+        on right: 50
+    expr <node> (75)
+        on left: 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74
+        on right: 5 21 22 30 31 36 38 43 44 45 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74
+
+
+State 0
+
+    0 $accept: . program $end
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    $default  reduce using rule 1 (program)
+
+    program      go to state 19
+    stmts        go to state 20
+    stmt         go to state 21
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 1
+
+   39 ident: tIDENT .
+   42 call: tIDENT . tLPAREN args tRPAREN
+   45 assign: tIDENT . tEQ expr
+
+    tEQ      shift, and go to state 38
+    tLPAREN  shift, and go to state 39
+
+    $default  reduce using rule 39 (ident)
+
+
+State 2
+
+   37 string: tSTRING .
+
+    $default  reduce using rule 37 (string)
+
+
+State 3
+
+   32 number: tNUMBER .
+
+    $default  reduce using rule 32 (number)
+
+
+State 4
+
+   33 bool: tTRUE .
+
+    $default  reduce using rule 33 (bool)
+
+
+State 5
+
+   34 bool: tFALSE .
+
+    $default  reduce using rule 34 (bool)
+
+
+State 6
+
+   49 expr: tNULL .
+
+    $default  reduce using rule 49 (expr)
+
+
+State 7
+
+   73 expr: tMINUS . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 40
+
+
+State 8
+
+   74 expr: tNOT . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 41
+
+
+State 9
+
+   72 expr: tBNOT . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 42
+
+
+State 10
+
+   23 func: tFUNCTION . proto tSEMI stmts tEND
+   24     | tFUNCTION . proto tSEMI tEND
+
+    tIDENT  shift, and go to state 43
+
+    proto  go to state 44
+
+
+State 11
+
+   21 while_loop: tWHILE . expr tSEMI stmts tEND
+   22           | tWHILE . expr tSEMI tEND
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 45
+
+
+State 12
+
+   41 file: tFILE .
+
+    $default  reduce using rule 41 (file)
+
+
+State 13
+
+   35 return_expr: tRETURN .
+   36            | tRETURN . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    $default  reduce using rule 35 (return_expr)
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 46
+
+
+State 14
+
+   43 cond: tIF . expr tSEMI stmts tEND
+   44     | tIF . expr tSEMI stmts tELSE stmts tEND
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 47
+
+
+State 15
+
+   20 do_block: tDO . stmts tEND
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    stmts        go to state 48
+    stmt         go to state 21
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 16
+
+   18 class_stmt: tCLASS . tIDENT tSEMI tEND
+   19           | tCLASS . tIDENT tSEMI class_body tEND
+
+    tIDENT  shift, and go to state 49
+
+
+State 17
+
+   13 import_stmt: tIMPORT . tIDENT
+
+    tIDENT  shift, and go to state 50
+
+
+State 18
+
+   54 expr: tLPAREN . expr tRPAREN
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 51
+
+
+State 19
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 52
+
+
+State 20
+
+    2 program: stmts .
+    4 stmts: stmts . stmt tSEMI
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    $default  reduce using rule 2 (program)
+
+    stmt         go to state 53
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 21
+
+    3 stmts: stmt . tSEMI
+
+    tSEMI  shift, and go to state 54
+
+
+State 22
+
+   11 stmt: import_stmt .
+
+    $default  reduce using rule 11 (stmt)
+
+
+State 23
+
+   12 stmt: class_stmt .
+
+    $default  reduce using rule 12 (stmt)
+
+
+State 24
+
+    9 stmt: do_block .
+
+    $default  reduce using rule 9 (stmt)
+
+
+State 25
+
+   10 stmt: while_loop .
+
+    $default  reduce using rule 10 (stmt)
+
+
+State 26
+
+    6 stmt: func .
+
+    $default  reduce using rule 6 (stmt)
+
+
+State 27
+
+   46 expr: number .
+
+    $default  reduce using rule 46 (expr)
+
+
+State 28
+
+   48 expr: bool .
+
+    $default  reduce using rule 48 (expr)
+
+
+State 29
+
+    7 stmt: return_expr .
+
+    $default  reduce using rule 7 (stmt)
+
+
+State 30
+
+   51 expr: string .
+
+    $default  reduce using rule 51 (expr)
+
+
+State 31
+
+   47 expr: ternary .
+
+    $default  reduce using rule 47 (expr)
+
+
+State 32
+
+   52 expr: ident .
+
+    $default  reduce using rule 52 (expr)
+
+
+State 33
+
+   40 ident: file .
+
+    $default  reduce using rule 40 (ident)
+
+
+State 34
+
+   53 expr: call .
+
+    $default  reduce using rule 53 (expr)
+
+
+State 35
+
+    8 stmt: cond .
+
+    $default  reduce using rule 8 (stmt)
+
+
+State 36
+
+   50 expr: assign .
+
+    $default  reduce using rule 50 (expr)
+
+
+State 37
+
+    5 stmt: expr .
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tGT     shift, and go to state 55
+    tGE     shift, and go to state 56
+    tLT     shift, and go to state 57
+    tLE     shift, and go to state 58
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+    tEQEQ   shift, and go to state 63
+    tNEQ    shift, and go to state 64
+    tAND    shift, and go to state 65
+    tOR     shift, and go to state 66
+    tQU     shift, and go to state 67
+    tSHR    shift, and go to state 68
+    tSHL    shift, and go to state 69
+    tBOR    shift, and go to state 70
+    tBAND   shift, and go to state 71
+    tXOR    shift, and go to state 72
+
+    $default  reduce using rule 5 (stmt)
+
+
+State 38
+
+   45 assign: tIDENT tEQ . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 73
+
+
+State 39
+
+   42 call: tIDENT tLPAREN . args tRPAREN
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    $default  reduce using rule 29 (args)
+
+    args     go to state 74
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 75
+
+
+State 40
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+   73     | tMINUS expr .
+
+    $default  reduce using rule 73 (expr)
+
+
+State 41
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+   74     | tNOT expr .
+
+    $default  reduce using rule 74 (expr)
+
+
+State 42
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+   72     | tBNOT expr .
+
+    $default  reduce using rule 72 (expr)
+
+
+State 43
+
+   25 proto: tIDENT . tLPAREN fnargs tRPAREN
+
+    tLPAREN  shift, and go to state 76
+
+
+State 44
+
+   23 func: tFUNCTION proto . tSEMI stmts tEND
+   24     | tFUNCTION proto . tSEMI tEND
+
+    tSEMI  shift, and go to state 77
+
+
+State 45
+
+   21 while_loop: tWHILE expr . tSEMI stmts tEND
+   22           | tWHILE expr . tSEMI tEND
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tGT     shift, and go to state 55
+    tGE     shift, and go to state 56
+    tLT     shift, and go to state 57
+    tLE     shift, and go to state 58
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+    tEQEQ   shift, and go to state 63
+    tNEQ    shift, and go to state 64
+    tAND    shift, and go to state 65
+    tOR     shift, and go to state 66
+    tQU     shift, and go to state 67
+    tSHR    shift, and go to state 68
+    tSHL    shift, and go to state 69
+    tBOR    shift, and go to state 70
+    tBAND   shift, and go to state 71
+    tXOR    shift, and go to state 72
+    tSEMI   shift, and go to state 78
+
+
+State 46
+
+   36 return_expr: tRETURN expr .
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tGT     shift, and go to state 55
+    tGE     shift, and go to state 56
+    tLT     shift, and go to state 57
+    tLE     shift, and go to state 58
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+    tEQEQ   shift, and go to state 63
+    tNEQ    shift, and go to state 64
+    tAND    shift, and go to state 65
+    tOR     shift, and go to state 66
+    tQU     shift, and go to state 67
+    tSHR    shift, and go to state 68
+    tSHL    shift, and go to state 69
+    tBOR    shift, and go to state 70
+    tBAND   shift, and go to state 71
+    tXOR    shift, and go to state 72
+
+    $default  reduce using rule 36 (return_expr)
+
+
+State 47
+
+   38 ternary: expr . tQU expr tCOLON expr
+   43 cond: tIF expr . tSEMI stmts tEND
+   44     | tIF expr . tSEMI stmts tELSE stmts tEND
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tGT     shift, and go to state 55
+    tGE     shift, and go to state 56
+    tLT     shift, and go to state 57
+    tLE     shift, and go to state 58
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+    tEQEQ   shift, and go to state 63
+    tNEQ    shift, and go to state 64
+    tAND    shift, and go to state 65
+    tOR     shift, and go to state 66
+    tQU     shift, and go to state 67
+    tSHR    shift, and go to state 68
+    tSHL    shift, and go to state 69
+    tBOR    shift, and go to state 70
+    tBAND   shift, and go to state 71
+    tXOR    shift, and go to state 72
+    tSEMI   shift, and go to state 79
+
+
+State 48
+
+    4 stmts: stmts . stmt tSEMI
+   20 do_block: tDO stmts . tEND
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tEND       shift, and go to state 80
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    stmt         go to state 53
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 49
+
+   18 class_stmt: tCLASS tIDENT . tSEMI tEND
+   19           | tCLASS tIDENT . tSEMI class_body tEND
+
+    tSEMI  shift, and go to state 81
+
+
+State 50
+
+   13 import_stmt: tIMPORT tIDENT .
+
+    $default  reduce using rule 13 (import_stmt)
+
+
+State 51
+
+   38 ternary: expr . tQU expr tCOLON expr
+   54 expr: tLPAREN expr . tRPAREN
+   55     | expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tGT      shift, and go to state 55
+    tGE      shift, and go to state 56
+    tLT      shift, and go to state 57
+    tLE      shift, and go to state 58
+    tPLUS    shift, and go to state 59
+    tMINUS   shift, and go to state 60
+    tSLASH   shift, and go to state 61
+    tSTAR    shift, and go to state 62
+    tEQEQ    shift, and go to state 63
+    tNEQ     shift, and go to state 64
+    tAND     shift, and go to state 65
+    tOR      shift, and go to state 66
+    tQU      shift, and go to state 67
+    tSHR     shift, and go to state 68
+    tSHL     shift, and go to state 69
+    tBOR     shift, and go to state 70
+    tBAND    shift, and go to state 71
+    tXOR     shift, and go to state 72
+    tRPAREN  shift, and go to state 82
+
+
+State 52
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 53
+
+    4 stmts: stmts stmt . tSEMI
+
+    tSEMI  shift, and go to state 83
+
+
+State 54
+
+    3 stmts: stmt tSEMI .
+
+    $default  reduce using rule 3 (stmts)
+
+
+State 55
+
+   59 expr: expr tGT . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 84
+
+
+State 56
+
+   60 expr: expr tGE . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 85
+
+
+State 57
+
+   61 expr: expr tLT . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 86
+
+
+State 58
+
+   62 expr: expr tLE . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 87
+
+
+State 59
+
+   55 expr: expr tPLUS . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 88
+
+
+State 60
+
+   56 expr: expr tMINUS . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 89
+
+
+State 61
+
+   57 expr: expr tSLASH . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 90
+
+
+State 62
+
+   58 expr: expr tSTAR . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 91
+
+
+State 63
+
+   67 expr: expr tEQEQ . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 92
+
+
+State 64
+
+   69 expr: expr tNEQ . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 93
+
+
+State 65
+
+   70 expr: expr tAND . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 94
+
+
+State 66
+
+   71 expr: expr tOR . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 95
+
+
+State 67
+
+   38 ternary: expr tQU . expr tCOLON expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 96
+
+
+State 68
+
+   63 expr: expr tSHR . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 97
+
+
+State 69
+
+   64 expr: expr tSHL . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 98
+
+
+State 70
+
+   65 expr: expr tBOR . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 99
+
+
+State 71
+
+   66 expr: expr tBAND . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 100
+
+
+State 72
+
+   68 expr: expr tXOR . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 101
+
+
+State 73
+
+   38 ternary: expr . tQU expr tCOLON expr
+   45 assign: tIDENT tEQ expr .
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tGT     shift, and go to state 55
+    tGE     shift, and go to state 56
+    tLT     shift, and go to state 57
+    tLE     shift, and go to state 58
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+    tEQEQ   shift, and go to state 63
+    tNEQ    shift, and go to state 64
+    tAND    shift, and go to state 65
+    tOR     shift, and go to state 66
+    tQU     shift, and go to state 67
+    tSHR    shift, and go to state 68
+    tSHL    shift, and go to state 69
+    tBOR    shift, and go to state 70
+    tBAND   shift, and go to state 71
+    tXOR    shift, and go to state 72
+
+    $default  reduce using rule 45 (assign)
+
+
+State 74
+
+   31 args: args . tCOMMA expr
+   42 call: tIDENT tLPAREN args . tRPAREN
+
+    tRPAREN  shift, and go to state 102
+    tCOMMA   shift, and go to state 103
+
+
+State 75
+
+   30 args: expr .
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tGT     shift, and go to state 55
+    tGE     shift, and go to state 56
+    tLT     shift, and go to state 57
+    tLE     shift, and go to state 58
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+    tEQEQ   shift, and go to state 63
+    tNEQ    shift, and go to state 64
+    tAND    shift, and go to state 65
+    tOR     shift, and go to state 66
+    tQU     shift, and go to state 67
+    tSHR    shift, and go to state 68
+    tSHL    shift, and go to state 69
+    tBOR    shift, and go to state 70
+    tBAND   shift, and go to state 71
+    tXOR    shift, and go to state 72
+
+    $default  reduce using rule 30 (args)
+
+
+State 76
+
+   25 proto: tIDENT tLPAREN . fnargs tRPAREN
+
+    tIDENT  shift, and go to state 104
+
+    $default  reduce using rule 26 (fnargs)
+
+    fnargs  go to state 105
+
+
+State 77
+
+   23 func: tFUNCTION proto tSEMI . stmts tEND
+   24     | tFUNCTION proto tSEMI . tEND
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tEND       shift, and go to state 106
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    stmts        go to state 107
+    stmt         go to state 21
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 78
+
+   21 while_loop: tWHILE expr tSEMI . stmts tEND
+   22           | tWHILE expr tSEMI . tEND
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tEND       shift, and go to state 108
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    stmts        go to state 109
+    stmt         go to state 21
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 79
+
+   43 cond: tIF expr tSEMI . stmts tEND
+   44     | tIF expr tSEMI . stmts tELSE stmts tEND
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    stmts        go to state 110
+    stmt         go to state 21
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 80
+
+   20 do_block: tDO stmts tEND .
+
+    $default  reduce using rule 20 (do_block)
+
+
+State 81
+
+   18 class_stmt: tCLASS tIDENT tSEMI . tEND
+   19           | tCLASS tIDENT tSEMI . class_body tEND
+
+    tIDENT  shift, and go to state 43
+    tEND    shift, and go to state 111
+
+    class_method  go to state 112
+    class_body    go to state 113
+    proto         go to state 114
+
+
+State 82
+
+   54 expr: tLPAREN expr tRPAREN .
+
+    $default  reduce using rule 54 (expr)
+
+
+State 83
+
+    4 stmts: stmts stmt tSEMI .
+
+    $default  reduce using rule 4 (stmts)
+
+
+State 84
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   59     | expr tGT expr .
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 59 (expr)
+
+
+State 85
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   60     | expr tGE expr .
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 60 (expr)
+
+
+State 86
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   61     | expr tLT expr .
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 61 (expr)
+
+
+State 87
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   62     | expr tLE expr .
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 62 (expr)
+
+
+State 88
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   55     | expr tPLUS expr .
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 55 (expr)
+
+
+State 89
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   56     | expr tMINUS expr .
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 56 (expr)
+
+
+State 90
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   57     | expr tSLASH expr .
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    $default  reduce using rule 57 (expr)
+
+
+State 91
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   58     | expr tSTAR expr .
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    $default  reduce using rule 58 (expr)
+
+
+State 92
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   67     | expr tEQEQ expr .
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 67 (expr)
+
+
+State 93
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   69     | expr tNEQ expr .
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 69 (expr)
+
+
+State 94
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   70     | expr tAND expr .
+   71     | expr . tOR expr
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 70 (expr)
+
+
+State 95
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+   71     | expr tOR expr .
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 71 (expr)
+
+
+State 96
+
+   38 ternary: expr . tQU expr tCOLON expr
+   38        | expr tQU expr . tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tGT     shift, and go to state 55
+    tGE     shift, and go to state 56
+    tLT     shift, and go to state 57
+    tLE     shift, and go to state 58
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+    tEQEQ   shift, and go to state 63
+    tNEQ    shift, and go to state 64
+    tAND    shift, and go to state 65
+    tOR     shift, and go to state 66
+    tQU     shift, and go to state 67
+    tSHR    shift, and go to state 68
+    tSHL    shift, and go to state 69
+    tBOR    shift, and go to state 70
+    tBAND   shift, and go to state 71
+    tXOR    shift, and go to state 72
+    tCOLON  shift, and go to state 115
+
+
+State 97
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   63     | expr tSHR expr .
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 63 (expr)
+
+
+State 98
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   64     | expr tSHL expr .
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 64 (expr)
+
+
+State 99
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   65     | expr tBOR expr .
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 65 (expr)
+
+
+State 100
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   66     | expr tBAND expr .
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 66 (expr)
+
+
+State 101
+
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   68     | expr tXOR expr .
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+
+    $default  reduce using rule 68 (expr)
+
+
+State 102
+
+   42 call: tIDENT tLPAREN args tRPAREN .
+
+    $default  reduce using rule 42 (call)
+
+
+State 103
+
+   31 args: args tCOMMA . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 116
+
+
+State 104
+
+   27 fnargs: tIDENT .
+
+    $default  reduce using rule 27 (fnargs)
+
+
+State 105
+
+   25 proto: tIDENT tLPAREN fnargs . tRPAREN
+   28 fnargs: fnargs . tCOMMA tIDENT
+
+    tRPAREN  shift, and go to state 117
+    tCOMMA   shift, and go to state 118
+
+
+State 106
+
+   24 func: tFUNCTION proto tSEMI tEND .
+
+    $default  reduce using rule 24 (func)
+
+
+State 107
+
+    4 stmts: stmts . stmt tSEMI
+   23 func: tFUNCTION proto tSEMI stmts . tEND
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tEND       shift, and go to state 119
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    stmt         go to state 53
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 108
+
+   22 while_loop: tWHILE expr tSEMI tEND .
+
+    $default  reduce using rule 22 (while_loop)
+
+
+State 109
+
+    4 stmts: stmts . stmt tSEMI
+   21 while_loop: tWHILE expr tSEMI stmts . tEND
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tEND       shift, and go to state 120
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    stmt         go to state 53
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 110
+
+    4 stmts: stmts . stmt tSEMI
+   43 cond: tIF expr tSEMI stmts . tEND
+   44     | tIF expr tSEMI stmts . tELSE stmts tEND
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tEND       shift, and go to state 121
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tELSE      shift, and go to state 122
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    stmt         go to state 53
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 111
+
+   18 class_stmt: tCLASS tIDENT tSEMI tEND .
+
+    $default  reduce using rule 18 (class_stmt)
+
+
+State 112
+
+   16 class_body: class_method . tSEMI
+
+    tSEMI  shift, and go to state 123
+
+
+State 113
+
+   17 class_body: class_body . class_method tSEMI
+   19 class_stmt: tCLASS tIDENT tSEMI class_body . tEND
+
+    tIDENT  shift, and go to state 43
+    tEND    shift, and go to state 124
+
+    class_method  go to state 125
+    proto         go to state 114
+
+
+State 114
+
+   14 class_method: proto . tSEMI stmts tEND
+   15             | proto . tSEMI tEND
+
+    tSEMI  shift, and go to state 126
+
+
+State 115
+
+   38 ternary: expr tQU expr tCOLON . expr
+
+    tIDENT   shift, and go to state 1
+    tSTRING  shift, and go to state 2
+    tNUMBER  shift, and go to state 3
+    tTRUE    shift, and go to state 4
+    tFALSE   shift, and go to state 5
+    tNULL    shift, and go to state 6
+    tMINUS   shift, and go to state 7
+    tNOT     shift, and go to state 8
+    tBNOT    shift, and go to state 9
+    tFILE    shift, and go to state 12
+    tLPAREN  shift, and go to state 18
+
+    number   go to state 27
+    bool     go to state 28
+    string   go to state 30
+    ternary  go to state 31
+    ident    go to state 32
+    file     go to state 33
+    call     go to state 34
+    assign   go to state 36
+    expr     go to state 127
+
+
+State 116
+
+   31 args: args tCOMMA expr .
+   38 ternary: expr . tQU expr tCOLON expr
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tGT     shift, and go to state 55
+    tGE     shift, and go to state 56
+    tLT     shift, and go to state 57
+    tLE     shift, and go to state 58
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+    tEQEQ   shift, and go to state 63
+    tNEQ    shift, and go to state 64
+    tAND    shift, and go to state 65
+    tOR     shift, and go to state 66
+    tQU     shift, and go to state 67
+    tSHR    shift, and go to state 68
+    tSHL    shift, and go to state 69
+    tBOR    shift, and go to state 70
+    tBAND   shift, and go to state 71
+    tXOR    shift, and go to state 72
+
+    $default  reduce using rule 31 (args)
+
+
+State 117
+
+   25 proto: tIDENT tLPAREN fnargs tRPAREN .
+
+    $default  reduce using rule 25 (proto)
+
+
+State 118
+
+   28 fnargs: fnargs tCOMMA . tIDENT
+
+    tIDENT  shift, and go to state 128
+
+
+State 119
+
+   23 func: tFUNCTION proto tSEMI stmts tEND .
+
+    $default  reduce using rule 23 (func)
+
+
+State 120
+
+   21 while_loop: tWHILE expr tSEMI stmts tEND .
+
+    $default  reduce using rule 21 (while_loop)
+
+
+State 121
+
+   43 cond: tIF expr tSEMI stmts tEND .
+
+    $default  reduce using rule 43 (cond)
+
+
+State 122
+
+   44 cond: tIF expr tSEMI stmts tELSE . stmts tEND
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    stmts        go to state 129
+    stmt         go to state 21
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 123
+
+   16 class_body: class_method tSEMI .
+
+    $default  reduce using rule 16 (class_body)
+
+
+State 124
+
+   19 class_stmt: tCLASS tIDENT tSEMI class_body tEND .
+
+    $default  reduce using rule 19 (class_stmt)
+
+
+State 125
+
+   17 class_body: class_body class_method . tSEMI
+
+    tSEMI  shift, and go to state 130
+
+
+State 126
+
+   14 class_method: proto tSEMI . stmts tEND
+   15             | proto tSEMI . tEND
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tEND       shift, and go to state 131
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    stmts        go to state 132
+    stmt         go to state 21
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 127
+
+   38 ternary: expr . tQU expr tCOLON expr
+   38        | expr tQU expr tCOLON expr .
+   55 expr: expr . tPLUS expr
+   56     | expr . tMINUS expr
+   57     | expr . tSLASH expr
+   58     | expr . tSTAR expr
+   59     | expr . tGT expr
+   60     | expr . tGE expr
+   61     | expr . tLT expr
+   62     | expr . tLE expr
+   63     | expr . tSHR expr
+   64     | expr . tSHL expr
+   65     | expr . tBOR expr
+   66     | expr . tBAND expr
+   67     | expr . tEQEQ expr
+   68     | expr . tXOR expr
+   69     | expr . tNEQ expr
+   70     | expr . tAND expr
+   71     | expr . tOR expr
+
+    tGT     shift, and go to state 55
+    tGE     shift, and go to state 56
+    tLT     shift, and go to state 57
+    tLE     shift, and go to state 58
+    tPLUS   shift, and go to state 59
+    tMINUS  shift, and go to state 60
+    tSLASH  shift, and go to state 61
+    tSTAR   shift, and go to state 62
+    tEQEQ   shift, and go to state 63
+    tNEQ    shift, and go to state 64
+    tAND    shift, and go to state 65
+    tOR     shift, and go to state 66
+    tSHR    shift, and go to state 68
+    tSHL    shift, and go to state 69
+    tBOR    shift, and go to state 70
+    tBAND   shift, and go to state 71
+    tXOR    shift, and go to state 72
+
+    $default  reduce using rule 38 (ternary)
+
+
+State 128
+
+   28 fnargs: fnargs tCOMMA tIDENT .
+
+    $default  reduce using rule 28 (fnargs)
+
+
+State 129
+
+    4 stmts: stmts . stmt tSEMI
+   44 cond: tIF expr tSEMI stmts tELSE stmts . tEND
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tEND       shift, and go to state 133
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    stmt         go to state 53
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 130
+
+   17 class_body: class_body class_method tSEMI .
+
+    $default  reduce using rule 17 (class_body)
+
+
+State 131
+
+   15 class_method: proto tSEMI tEND .
+
+    $default  reduce using rule 15 (class_method)
+
+
+State 132
+
+    4 stmts: stmts . stmt tSEMI
+   14 class_method: proto tSEMI stmts . tEND
+
+    tIDENT     shift, and go to state 1
+    tSTRING    shift, and go to state 2
+    tNUMBER    shift, and go to state 3
+    tTRUE      shift, and go to state 4
+    tFALSE     shift, and go to state 5
+    tNULL      shift, and go to state 6
+    tMINUS     shift, and go to state 7
+    tNOT       shift, and go to state 8
+    tBNOT      shift, and go to state 9
+    tFUNCTION  shift, and go to state 10
+    tWHILE     shift, and go to state 11
+    tEND       shift, and go to state 134
+    tFILE      shift, and go to state 12
+    tRETURN    shift, and go to state 13
+    tIF        shift, and go to state 14
+    tDO        shift, and go to state 15
+    tCLASS     shift, and go to state 16
+    tIMPORT    shift, and go to state 17
+    tLPAREN    shift, and go to state 18
+
+    stmt         go to state 53
+    import_stmt  go to state 22
+    class_stmt   go to state 23
+    do_block     go to state 24
+    while_loop   go to state 25
+    func         go to state 26
+    number       go to state 27
+    bool         go to state 28
+    return_expr  go to state 29
+    string       go to state 30
+    ternary      go to state 31
+    ident        go to state 32
+    file         go to state 33
+    call         go to state 34
+    cond         go to state 35
+    assign       go to state 36
+    expr         go to state 37
+
+
+State 133
+
+   44 cond: tIF expr tSEMI stmts tELSE stmts tEND .
+
+    $default  reduce using rule 44 (cond)
+
+
+State 134
+
+   14 class_method: proto tSEMI stmts tEND .
+
+    $default  reduce using rule 14 (class_method)

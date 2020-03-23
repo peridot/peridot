@@ -1,0 +1,12 @@
+
+if true && false
+  print "false"
+end
+
+if true && true
+  print "true"
+end
+
+if true || false
+  print "true"
+end

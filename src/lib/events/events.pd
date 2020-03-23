@@ -1,0 +1,56 @@
+
+# @module events
+# The EventEmitter class allows listening and emitting events.
+# Normally you would extend this in your own classes to use it.
+# It exposes the functions `on` and `emit`
+# ```pd
+# import events for EventEmitter
+# ee = EventEmitter()
+# ee.on("data") do |data|
+#   println(data)
+# end
+#
+# ee.emit("data", "Hello, World!")
+# 
+# # With classes.
+# class Connection < EventEmitter
+#   function connect()
+#     self.emit("connect")
+#   end
+# end
+#
+# conn = Connection()
+#
+# conn.on("connect") do
+#   println("Connected!")
+# end
+#
+# conn.connect()
+# ```
+class EventEmitter
+  function init()
+    self.events = {}
+  end
+
+  function on(event, handler)
+    if !self.events.has(event)
+      self.events[event] = [handler]
+      return self
+    end
+
+    self.events[event].append(handler)
+    return self
+  end
+
+  function emit(event, ...args)
+    events = self.events[event]
+
+    if events
+      for ev in events
+        ev(...args)
+      end
+    end
+
+    return self
+  end
+end

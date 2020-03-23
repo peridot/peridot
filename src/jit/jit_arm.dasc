@@ -1,0 +1,11 @@
+|.arch arm
+|// Calling conventions. Also used as temporaries.
+|.define CARG1,   r0
+|.define CARG2,   r1
+|.define CARG3,   r2
+|.define CARG4,   r3
+|.define CARG12,  r0  // For 1st soft-fp double.
+|.define CARG34,  r2  // For 2nd soft-fp double.
+|
+|.define CRET1,   r0
+|.define CRET2,   r1

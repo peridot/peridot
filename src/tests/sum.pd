@@ -1,0 +1,9 @@
+function sum(x, y)
+  return x + y
+end
+
+function mul(x, y)
+  return x * y
+end
+
+println(mul(sum(5, 2), 2)) # expect 14

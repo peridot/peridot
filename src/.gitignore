@@ -1,0 +1,5 @@
+# cached compiled objects
+obj/
+
+# Development binary created with the inner Makefile.
+peridot

@@ -1,0 +1,21 @@
+
+# @module json
+# The JSON module provides the ability to encode peridot objects to JSON
+# and decode them back.
+# ```pd
+# import json
+# # Parse a JSON string into a Dictionary
+# json.parse("somejson")
+# # Turn a peridot object into a JSON string.
+# json.stringify({ "hello": "world" })
+# # Decoding JSON into a peridot class.
+# class User < json.Serializer
+#   function init()
+#     # fields, dictionary entries remaps the key names.
+#     super(["name", "age", { "work": "job" }])
+#   end
+# end
+# # Static from_json from json.Serialize allows deserializing.
+# # Instances also get to_json() to serialize back.
+# User.from_json("somejson").to_json()
+# ```

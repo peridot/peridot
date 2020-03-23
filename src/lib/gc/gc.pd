@@ -1,0 +1,70 @@
+
+# @module gc
+# The GC module gives some lower-level access to the garbage collector.
+# ```lb
+# import "gc"
+# # Check if gc is enabled, initially always true unless disabled via -g flag.
+# println(gc.is_enabled()) # => true
+# # Disable GC
+# gc.disable()
+# println(gc.is_enabled()) # => false
+# # Enable gc again.
+# gc.enable()
+# # Force a collection.
+# gc.collect()
+# # Get the heap size.
+# println(gc.get_heap_size()) # => Heap size in bytes.
+# ```
+# gc.collect can still collect garbage if gc is disabled.
+
+# TODO: Pretty much most of this is copied from my other (failed) programming language that tried to use LLVM.
+# Calling C straight from code wasn't so hard so that's how i planned it there but this will need a big change.
+# Yes, i even rushed this library in the other language too I'm an idiot who likes to write future stuff without finishing the current
+
+# Force a collection.
+function collect()
+  ccall(null, "pd_gc_collect")
+end
+
+# Get the heap size in bytes.
+function get_heap_size()
+  return ccall(Number, "pd_gc_get_heap_size")
+end
+
+# Enable GC, acts as a no-op if already enabled.
+function enable()
+  if gc.is_enabled()
+    return
+  end
+  ccall(null, "pd_gc_enable")
+end
+
+# Disable GC, acts as a no-op if already disabled.
+function disable()
+  if gc.is_disabled()
+    return
+  end
+  ccall(null, "pd_gc_disable")
+end
+
+# Check if GC is disabled.
+function is_disabled()
+  return ccall(Int, "lb_gc_is_disabled")
+end
+
+# Check if GC is enabled.
+# Equivalent to !gc.is_disabled()
+function is_enabled() -> Bool
+  return !is_disabled()
+end
+
+# Gets the total heap allocations done, this never decreases, thus it shows the highest amount of the memory this program ever used
+# heap_total() - heap_size() would give the amount the GC has freed.
+function get_heap_total()
+  return ccall(Int, "pd_gc_get_heap_total")
+end
+
+# Gets the amount of bytes allocated since the last GC.
+function get_bytes_since_gc() -> Int
+  return ccall(Int, "pd_gc_get_bytes_since_gc")
+end

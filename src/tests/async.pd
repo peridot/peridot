@@ -1,0 +1,22 @@
+
+function p(x)
+  println(x)
+end
+
+function cb()
+  gc_collect()
+  p("Hello, World!")
+end
+
+function another()
+  gc_collect()
+  p("Yet another callback.")
+end
+
+p("Collecting before setTimeout")
+gc_collect()
+setTimeout(3000, cb)
+setTimeout(3000, another)
+p("Collecting after setTimeout")
+gc_collect() # stress test gc
+p("Async!")

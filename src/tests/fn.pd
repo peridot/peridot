@@ -1,0 +1,7 @@
+
+function areWeHavingItYet()
+  println("Yes we are!")
+end
+
+println(areWeHavingItYet)
+areWeHavingItYet()

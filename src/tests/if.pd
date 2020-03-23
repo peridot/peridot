@@ -1,0 +1,21 @@
+if true
+  println("true!")
+else
+  println("does not run!")
+end
+
+println("middle")
+
+if false
+  println("does not run!")
+else
+  println("well it was false.")
+end
+
+if true
+  println("no else.")
+end
+
+if false
+  println("no else but not run.")
+end

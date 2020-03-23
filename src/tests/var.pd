@@ -1,0 +1,14 @@
+x = 5
+println(x)
+
+do
+  x = 6
+  println(x)
+  do
+    x = 7
+    println(x)
+  end
+  println(x)
+end
+
+println(x)

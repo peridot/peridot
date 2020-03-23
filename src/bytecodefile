@@ -1,0 +1,50 @@
+.pvm file format
+
+This is just an example concept when i was thinking about it, things may change, may not happen etc etc.
+
+The types are expressed in bytes, e.g `u2` = `2 Bytes` the bytes are in little-endian order.
+
+The format is a bit inspired by Java's .class format, therefore documented in a similar way.
+
+pvm_instructions {
+  // Header
+  u4 magic
+  // Version
+  u1 major_version
+  u1 minor_version
+  // Constant pool
+  u2 cp_count
+  cp_info constant_pool[cp_count]
+  u2 functions_count
+  fn functions[functions_count]
+  fn main // top-level
+}
+
+magic is always 0xFA57BC (Base 10: 16406460) it simply stands for "Fast Bytecode" use it to verify the file is actually a Peridot VM instruction file.
+
+major_version and minor_version returns the version of the bytecode file, the interpreter must refuse to run code whose version is higher than what the interpreter supports.
+
+Note: PVM does not verify the bytecode at runtime and will crash if you throw weird instructions at them, the compiler is required to emit valid bytecode and avoid such things, the default compiler does it all right but if it crashes with another compiler then that compiler has a bug.
+
+cp_info {
+  u1 tag
+  // The actual data after it depends on what the tag was.
+}
+
+const_string {
+  u1 tag // 0
+  u2 len
+  u1 bytes[len]
+}
+
+const_number {
+  u1 tag // 1
+  // 64-Bit double.
+  u8 value
+}
+
+fn {
+  u2 name // index to constant pool
+  u2 codelen
+  u1 bytecode[codelen]
+}

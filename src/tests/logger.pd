@@ -1,0 +1,52 @@
+# A logger written in Peridot
+# Just an early test
+
+# Level constants
+fatal = 1
+error = 2
+warn = 3
+info = 4
+debug = 5
+
+current_level = 5
+
+function print_level(level)
+  if level == fatal
+    return print("[FATAL] ")
+  end
+
+  if level == error
+    return print("[ERROR] ")
+  end
+
+  if level == warn
+    return print("[WARN] ")
+  end
+
+  if level == info
+    return print("[INFO] ")
+  end
+
+  if level == debug
+    return print("[DEBUG] ")
+  end
+end
+
+function log(level, msg)
+  if level > current_level
+    return
+  end
+  print_level(level)
+  print(msg)
+  println()
+  if level == fatal
+    exit(1)
+  end
+end
+
+log(info, "Hello, World!")
+log(warn, "uwotm8")
+log(debug, "debugging...")
+log(error, "stuff crashed")
+log(fatal, "Fatal error: file not found.")
+log(info, "This won't run.")

@@ -1,0 +1,9 @@
+println(gc_heap_size())
+function lol()
+  x = "hello gc"
+  y = "lmao gc"
+end
+lol()
+println(gc_heap_size())
+gc_collect()
+println(gc_heap_size())
