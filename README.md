@@ -176,10 +176,10 @@ The book is still incomplete and so is my progress with it, the current progress
 - [x] Calls and Functions.
 - [x] Closures.
 - [x] Garbage Collection.
-- [] Classes and Instances. In Progress...
-- [] Methods and Initializers.
-- [] Superclasses
-- [] ~~Optimization~~ (This page is not written yet in the book.)
+- [ ] Classes and Instances. In Progress...
+- [ ] Methods and Initializers.
+- [ ] Superclasses
+- [ ] ~~Optimization~~ (This page is not written yet in the book.)
 
 That said, i don't want this language to be strictly tied to the book, it's a great start but eventually the code could change and become something else, something advanced.
 
