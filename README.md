@@ -42,12 +42,12 @@ println(math.sin(30))
 # Classes
 class Person
   function init(name, age)
-    this.name = name
-    this.age = age
+    self.name = name
+    self.age = age
   end
 
   function speak(text)
-    println("#{this.name}: #{text}")
+    println("#{self.name}: #{text}")
   end
 end
 
