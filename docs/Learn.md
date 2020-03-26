@@ -133,7 +133,7 @@ function hi()
 end
 
 print(v) # undefined here.
-```,
+```
 However since we do implicit variable declarations (as in there is no need for `var`/`const`/`let` keyword or similar) it raises a few issues:
 - If a variable is global and we assign it in a local scope would it modify the global value or create a new one in the scope?
 - If it doesn't modify the global one is there any option to modify them somehow?
